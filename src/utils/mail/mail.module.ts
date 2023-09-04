@@ -9,7 +9,6 @@ import { ConfigService } from '@nestjs/config';
   imports: [
     MailerModule.forRootAsync({
       useFactory: async (config: ConfigService) => ({
-        // transport: config.get('EMAIL_TRANSPORT'), # Only works in development
         transport: {
           host: config.get('MAIL_HOST'),
           secure: false,

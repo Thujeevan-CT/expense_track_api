@@ -3,11 +3,6 @@ export enum Status {
   Inactive = 'inactive',
 }
 
-export enum VerifiedStatus {
-  Verified = 1,
-  NotVerified = 0,
-}
-
 export enum EmailActions {
   FORGOT_PASSWORD_EMAIL = 'FORGOT_PASSWORD_EMAIL',
 }

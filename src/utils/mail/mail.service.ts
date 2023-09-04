@@ -6,7 +6,7 @@ import { EmailActions } from '../enums';
 type ActivateMailType = {
   name: string;
   email: string;
-  token: string;
+  code: string;
 };
 
 @Injectable()

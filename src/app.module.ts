@@ -26,7 +26,7 @@ import { JWTConnect } from './utils/jwt';
   providers: [
     {
       provide: APP_GUARD,
-      useClass: AuthGuard,
+      useClass: AuthGuard, // Authorization
     },
   ],
 })

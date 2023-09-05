@@ -16,6 +16,7 @@ import { loginDto } from './dto/login.dto';
 import { forgotPasswordDto } from './dto/forgotPassword.dto';
 import { userResponse } from './response/user.response';
 import { resetPasswordDto } from './dto/resetPassword.dto';
+import { generateDigitCode } from 'src/utils/helpers';
 @Injectable()
 export class AuthService {
   constructor(
@@ -126,10 +127,7 @@ export class AuthService {
         throw new NotFoundException('Email is not valid!');
       }
 
-      const min = 1000;
-      const max = 9999;
-      const digitCode = Math.floor(Math.random() * (max - min + 1)) + min;
-
+      const digitCode = generateDigitCode();
       (await user).code = digitCode;
       await (await user).save();
 

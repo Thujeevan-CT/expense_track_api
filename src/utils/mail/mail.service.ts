@@ -17,7 +17,7 @@ export class MailService {
   async sendForgotPasswordMail(data: ActivateMailType) {
     await this.mailerService.sendMail({
       to: data.email,
-      subject: 'Reset your password',
+      subject: 'Reset your password - Expense tracker',
       template: './reset-password',
       context: {
         name: data.name,

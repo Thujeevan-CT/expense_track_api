@@ -37,20 +37,16 @@ export class UserService {
       }
 
       const user = await this.userModel.findById(id);
-      if (!user) {
-        throw new NotFoundException('User not available!');
-      }
+      if (!user) throw new NotFoundException('User not available!');
 
-      if (current_password && !new_password) {
+      if (current_password && !new_password)
         throw new UnprocessableEntityException('New password is required!');
-      }
-      if (new_password && !current_password) {
-        throw new UnprocessableEntityException('Current password is required!');
-      }
 
-      if (new_password === current_password) {
+      if (new_password && !current_password)
+        throw new UnprocessableEntityException('Current password is required!');
+
+      if (new_password === current_password)
         throw new UnprocessableEntityException('Passwords are same!');
-      }
 
       let hashedPassword = 0;
       if (new_password && current_password) {
@@ -84,9 +80,7 @@ export class UserService {
       const updatedData = await this.userModel.findByIdAndUpdate(
         id,
         finalDataToUpdate,
-        {
-          new: true,
-        },
+        { new: true },
       );
 
       return {

@@ -9,6 +9,9 @@ import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth/guard/auth.guard';
 import { JwtModule } from '@nestjs/jwt';
 import { JWTConnect } from './utils/jwt';
+import { ExpenseModule } from './expense/expense.module';
+import { ExpenseCategoryModule } from './expense-category/expense-category.module';
+import { User, UserSchema } from './user/schema/user.schema';
 
 @Module({
   imports: [
@@ -19,8 +22,11 @@ import { JWTConnect } from './utils/jwt';
     MongooseModule.forRootAsync(ConnectDatabase),
     EventEmitterModule.forRoot(),
     JwtModule.registerAsync(JWTConnect),
-    UserModule,
+    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     AuthModule,
+    UserModule,
+    ExpenseModule,
+    ExpenseCategoryModule,
   ],
   controllers: [],
   providers: [

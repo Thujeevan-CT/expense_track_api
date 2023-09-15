@@ -26,10 +26,10 @@ export class User {
   code: number;
 
   @Prop({ required: false, default: () => moment.utc().format() })
-  createdAt: string;
+  created_at: string;
 
   @Prop({ required: false, default: () => moment.utc().format() })
-  updatedAt: string;
+  updated_at: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

@@ -9,4 +9,5 @@ export enum EmailActions {
 
 export enum UserRole {
   User = 'user',
+  Admin = 'admin',
 }

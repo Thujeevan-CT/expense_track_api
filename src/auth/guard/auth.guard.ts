@@ -3,6 +3,8 @@ import {
   ExecutionContext,
   ForbiddenException,
   Injectable,
+  NotAcceptableException,
+  UnprocessableEntityException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
@@ -10,10 +12,19 @@ import { IS_PUBLIC_KEY } from '../decorator/public.decorator';
 import { Reflector } from '@nestjs/core';
 import { UserRole } from 'src/utils/enums';
 import { ROLES_KEY } from '../decorator/roles.decorator';
+import { InjectModel } from '@nestjs/mongoose';
+import { User } from 'src/user/schema/user.schema';
+import { Model } from 'mongoose';
+import { userResponse } from '../response/user.response';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private jwtService: JwtService, private reflector: Reflector) {}
+  constructor(
+    private jwtService: JwtService,
+    private reflector: Reflector,
+    @InjectModel(User.name)
+    private readonly userModel: Model<User>,
+  ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
@@ -45,10 +56,21 @@ export class AuthGuard implements CanActivate {
         throw new ForbiddenException('You do not have access permission!');
       }
 
-      request['user'] = payload.user;
-      request['userRole'] = payload.user.role;
+      const user = await this.userModel
+        .findById(payload.user.id)
+        .select(['-password', '-code']);
+      if (!user) {
+        throw new UnprocessableEntityException('User not valid');
+      }
+      request['user'] = userResponse(await user);
+      request['userRole'] = (await user).role;
+      request['isAdmin'] = String((await user).role) === UserRole.Admin;
     } catch (err) {
-      throw new ForbiddenException('You do not have access permission!');
+      if (err.name === 'TokenExpiredError') {
+        throw new NotAcceptableException('Token expired!');
+      } else {
+        throw new ForbiddenException('You do not have access permission!');
+      }
     }
     return true;
   }

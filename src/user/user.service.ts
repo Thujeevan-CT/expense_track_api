@@ -10,12 +10,14 @@ import { User } from './schema/user.schema';
 import { Model, isValidObjectId } from 'mongoose';
 import { userUpdateDto } from './dto/userUpdate.dto';
 import { userResponse } from 'src/auth/response/user.response';
+import * as moment from 'moment';
 import * as bcrypt from 'bcrypt';
 
 type userUpdateType = {
   first_name: string;
   last_name: string;
   password?: number;
+  updated_at: string;
 };
 @Injectable()
 export class UserService {
@@ -68,6 +70,7 @@ export class UserService {
       let finalDataToUpdate: userUpdateType = {
         first_name: first_name ? first_name : user.first_name,
         last_name: last_name ? last_name : user.last_name,
+        updated_at: moment.utc().format(),
       };
 
       if (hashedPassword !== 0) {
@@ -85,7 +88,7 @@ export class UserService {
 
       return {
         message: 'User updated success.',
-        data: userResponse(updatedData),
+        user: userResponse(updatedData),
       };
     } catch (error) {
       throw new UnprocessableEntityException(error.message);

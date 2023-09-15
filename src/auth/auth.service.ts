@@ -168,7 +168,6 @@ export class AuthService {
 
       return {
         message: 'Password reset success.',
-        user: userResponse(await user),
       };
     } catch (error) {
       throw new UnprocessableEntityException(error.message);

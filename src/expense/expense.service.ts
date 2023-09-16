@@ -59,7 +59,6 @@ export class ExpenseService {
         data: expenseResponse(newExpense),
       };
     } catch (error) {
-      console.log(error);
       throw new UnprocessableEntityException(error.message);
     }
   }

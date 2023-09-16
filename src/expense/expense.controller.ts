@@ -35,7 +35,7 @@ import {
 @ApiUnprocessableEntityResponse({ description: 'Bad Request.' })
 @ApiInternalServerErrorResponse({ description: 'Internal server error.' })
 export class ExpenseController {
-  constructor(private expenseService: ExpenseService) {}
+  constructor(private readonly expenseService: ExpenseService) {}
 
   @Post()
   @Roles(UserRole.User)

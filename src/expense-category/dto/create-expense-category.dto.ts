@@ -1,4 +1,10 @@
-import { IsNotEmpty, IsString, MinLength, MaxLength } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsString,
+  MinLength,
+  MaxLength,
+  IsOptional,
+} from 'class-validator';
 import { Transform } from 'class-transformer';
 import { NameFormat } from 'src/utils/helpers';
 import { ApiProperty } from '@nestjs/swagger';
@@ -12,8 +18,8 @@ export class CreateExpenseCategoryDto {
   @MaxLength(64, { message: 'Name must be lower than 64 characters!' })
   readonly name: string;
 
-  @ApiProperty()
-  @IsNotEmpty()
+  @ApiProperty({ required: false })
+  @IsOptional()
   @IsString()
   @Transform(({ value }) => NameFormat(value))
   @MinLength(3, { message: 'Description must be greater than 3 characters!' })

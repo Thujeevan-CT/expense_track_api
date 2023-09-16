@@ -1,14 +1,22 @@
 import * as moment from 'moment';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { User } from 'src/user/schema/user.schema';
+import mongoose from 'mongoose';
 import { Status } from 'src/utils/enums';
 
 @Schema({ timestamps: false, versionKey: false })
-export class ExpenseCategory {
-  @Prop({ required: true, type: String, unique: true })
-  name: string;
+export class Income {
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
+  user: User;
 
-  @Prop({ required: false, type: String })
-  description: string;
+  @Prop({ type: mongoose.Schema.Types.Number })
+  amount: number;
+
+  @Prop({ type: mongoose.Schema.Types.String })
+  source: string;
+
+  @Prop({ type: mongoose.Schema.Types.Number })
+  date: number;
 
   @Prop({ required: true, enum: Status, default: Status.Active })
   status: Status;
@@ -20,5 +28,4 @@ export class ExpenseCategory {
   updated_at: string;
 }
 
-export const ExpenseCategorySchema =
-  SchemaFactory.createForClass(ExpenseCategory);
+export const IncomeSchema = SchemaFactory.createForClass(Income);

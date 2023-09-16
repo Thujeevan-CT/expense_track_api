@@ -31,7 +31,7 @@ import { Request as Req } from 'express';
 @ApiUnprocessableEntityResponse({ description: 'Bad Request.' })
 @ApiInternalServerErrorResponse({ description: 'Internal server error.' })
 export class UserController {
-  constructor(private userService: UserService) {}
+  constructor(private readonly userService: UserService) {}
 
   @Put('/update/:id')
   @Roles(UserRole.User)

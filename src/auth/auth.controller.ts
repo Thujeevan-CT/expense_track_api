@@ -35,7 +35,7 @@ import { Request as Req } from 'express';
 @ApiUnprocessableEntityResponse({ description: 'Bad Request.' })
 @ApiInternalServerErrorResponse({ description: 'Internal server error.' })
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private readonly authService: AuthService) {}
 
   @Post('/register')
   @HttpCode(200)
@@ -50,7 +50,7 @@ export class AuthController {
   @HttpCode(200)
   @Public()
   @ApiOperation({ summary: 'login user' })
-  @ApiOkResponse({ description: 'User logged-in Successfully.' })
+  @ApiOkResponse({ description: 'User logged in Successfully.' })
   async login(@Query() data: loginDto): Promise<any> {
     return this.authService.login(data);
   }

@@ -12,6 +12,7 @@ import { JWTConnect } from './utils/jwt';
 import { ExpenseModule } from './expense/expense.module';
 import { ExpenseCategoryModule } from './expense-category/expense-category.module';
 import { User, UserSchema } from './user/schema/user.schema';
+import { IncomeModule } from './income/income.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { User, UserSchema } from './user/schema/user.schema';
     UserModule,
     ExpenseModule,
     ExpenseCategoryModule,
+    IncomeModule,
   ],
   controllers: [],
   providers: [

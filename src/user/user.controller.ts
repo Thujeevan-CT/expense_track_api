@@ -4,7 +4,8 @@ import {
   Put,
   Query,
   HttpCode,
-  Request,
+  Get,
+  Req,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { userUpdateDto } from './dto/userUpdate.dto';
@@ -21,7 +22,8 @@ import {
 } from '@nestjs/swagger';
 import { Roles } from 'src/auth/decorator/roles.decorator';
 import { UserRole } from 'src/utils/enums';
-import { Request as Req } from 'express';
+import { Request } from 'express';
+import { getStatsDto } from './dto/getStats.dto';
 
 @ApiTags('User')
 @Controller('user')
@@ -40,10 +42,20 @@ export class UserController {
   @ApiOkResponse({ description: 'User updated Successfully.' })
   @ApiBearerAuth()
   async userUpdate(
-    @Request() req: Req,
+    @Req() req: Request,
     @Param('id') id: string,
     @Query() data: userUpdateDto,
   ): Promise<any> {
     return this.userService.userUpdate(req, id, data);
+  }
+
+  @Get('/profile/stats')
+  @Roles(UserRole.User)
+  @HttpCode(200)
+  @ApiOperation({ summary: 'Update user' })
+  @ApiOkResponse({ description: 'User updated Successfully.' })
+  @ApiBearerAuth()
+  async getUserStats(@Req() req: Request, @Query() data: getStatsDto) {
+    return this.userService.getUserStats(req, data);
   }
 }

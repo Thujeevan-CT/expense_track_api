@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
 import {
   IsEmail,
   IsNotEmpty,
@@ -10,6 +11,7 @@ import {
 export class loginDto {
   @ApiProperty()
   @IsNotEmpty()
+  @Transform(({ value }) => value.toLowerCase())
   @IsEmail()
   @MinLength(3, { message: 'Email must be greater than 3 characters!' })
   @MaxLength(64, { message: 'Email must be lower than 64 characters!' })

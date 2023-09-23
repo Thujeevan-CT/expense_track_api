@@ -13,6 +13,7 @@ import { ExpenseModule } from './expense/expense.module';
 import { ExpenseCategoryModule } from './expense-category/expense-category.module';
 import { User, UserSchema } from './user/schema/user.schema';
 import { IncomeModule } from './income/income.module';
+import { LoggerModule } from 'nestjs-pino';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { IncomeModule } from './income/income.module';
       isGlobal: true,
       cache: true,
     }),
+    LoggerModule.forRoot(),
     MongooseModule.forRootAsync(ConnectDatabase),
     EventEmitterModule.forRoot(),
     JwtModule.registerAsync(JWTConnect),

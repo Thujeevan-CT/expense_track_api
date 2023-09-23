@@ -3,10 +3,12 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { SuccessInterceptor } from './utils/interceptor/success.interceptor';
+import { Logger } from 'nestjs-pino';
 
 async function bootstrap() {
   const PORT = process.env.PORT || 8080;
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { bufferLogs: true });
+  app.useLogger(app.get(Logger));
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   app.useGlobalInterceptors(new SuccessInterceptor());
 

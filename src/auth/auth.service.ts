@@ -98,6 +98,10 @@ export class AuthService {
         req.headers['authorization'] &&
         req.headers['authorization'].split(' ')[1];
 
+      if (!token) {
+        throw new UnprocessableEntityException('Token not provided!');
+      }
+
       const expiredPayload = await this.jwtService.verifyAsync(token, {
         secret: process.env.JWT_SECRET_KEY,
         ignoreExpiration: true,

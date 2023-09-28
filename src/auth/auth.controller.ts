@@ -75,7 +75,7 @@ export class AuthController {
 
   @Get('/refresh-token')
   @HttpCode(200)
-  @Roles(UserRole.User)
+  @Public()
   @ApiBearerAuth()
   @ApiOperation({ summary: 'refresh token' })
   @ApiOkResponse({ description: 'Generated refresh token.' })

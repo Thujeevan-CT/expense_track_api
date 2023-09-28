@@ -35,6 +35,20 @@ export class UserService {
     private expenseCategoryModel: Model<ExpenseCategory>,
   ) {}
 
+  async getUserProfile(req: any): Promise<any> {
+    try {
+      const user = await this.userModel.findById(req.user.id);
+      if (!user) throw new NotFoundException('User not available!');
+
+      return {
+        message: 'User profile retrieved success.',
+        user: userResponse(user),
+      };
+    } catch (error) {
+      throw new UnprocessableEntityException(error.message);
+    }
+  }
+
   async userUpdate(
     req: any,
     id: string,

@@ -35,6 +35,16 @@ import { getStatsDto } from './dto/getStats.dto';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @Get('/profile')
+  @Roles(UserRole.User, UserRole.Admin)
+  @HttpCode(200)
+  @ApiOperation({ summary: 'Get user profile' })
+  @ApiOkResponse({ description: 'User profile retrieved Successfully.' })
+  @ApiBearerAuth()
+  async getUserProfile(@Req() req: Request) {
+    return this.userService.getUserProfile(req);
+  }
+
   @Put('/update/:id')
   @Roles(UserRole.User)
   @HttpCode(200)

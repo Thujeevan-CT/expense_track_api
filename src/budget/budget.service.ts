@@ -73,7 +73,7 @@ export class BudgetService {
       }
 
       const budgets = await this.budgetModel
-        .find()
+        .find(whereCondition)
         .populate(['user', 'category']);
 
       return {

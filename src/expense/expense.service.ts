@@ -118,7 +118,7 @@ export class ExpenseService {
       }
 
       const expenses = await this.expenseModel
-        .find()
+        .find(whereCondition)
         .populate(['user', 'category']);
 
       return {

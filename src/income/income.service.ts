@@ -55,7 +55,9 @@ export class IncomeService {
         whereCondition.user = req.user.id;
       }
 
-      const incomes = await this.incomeModel.find().populate(['user']);
+      const incomes = await this.incomeModel
+        .find(whereCondition)
+        .populate(['user']);
 
       return {
         message: 'Incomes retrieved success.',

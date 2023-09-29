@@ -62,7 +62,7 @@ export class UserController {
   @Get('/profile/stats')
   @Roles(UserRole.User)
   @HttpCode(200)
-  @ApiOperation({ summary: 'Update user' })
+  @ApiOperation({ summary: 'User Stats' })
   @ApiOkResponse({ description: 'User updated Successfully.' })
   @ApiBearerAuth()
   async getUserStats(@Req() req: Request, @Query() data: getStatsDto) {

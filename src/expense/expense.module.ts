@@ -9,6 +9,7 @@ import {
   ExpenseCategorySchema,
 } from 'src/expense-category/schema/expense-category.schema';
 import { Income, IncomeSchema } from 'src/income/schema/income.schema';
+import { Budget, BudgetSchema } from 'src/budget/schema/budget.schema';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { Income, IncomeSchema } from 'src/income/schema/income.schema';
       { name: User.name, schema: UserSchema },
       { name: ExpenseCategory.name, schema: ExpenseCategorySchema },
       { name: Income.name, schema: IncomeSchema },
+      { name: Budget.name, schema: BudgetSchema },
     ]),
   ],
   controllers: [ExpenseController],

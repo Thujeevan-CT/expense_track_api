@@ -18,3 +18,8 @@ export enum DurationType {
   Month = 'month',
   Year = 'year',
 }
+
+export enum BudgetType {
+  Weekly = 'weekly',
+  Monthly = 'monthly',
+}

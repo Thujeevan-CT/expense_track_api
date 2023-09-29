@@ -14,6 +14,7 @@ import { ExpenseCategoryModule } from './expense-category/expense-category.modul
 import { User, UserSchema } from './user/schema/user.schema';
 import { IncomeModule } from './income/income.module';
 import { LoggerModule } from 'nestjs-pino';
+import { BudgetModule } from './budget/budget.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { LoggerModule } from 'nestjs-pino';
     ExpenseModule,
     ExpenseCategoryModule,
     IncomeModule,
+    BudgetModule,
   ],
   controllers: [],
   providers: [

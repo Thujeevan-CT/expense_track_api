@@ -16,6 +16,7 @@ import { User } from 'src/user/schema/user.schema';
 import { ExpenseCategory } from 'src/expense-category/schema/expense-category.schema';
 import * as moment from 'moment';
 import { Income } from 'src/income/schema/income.schema';
+import { Budget } from 'src/budget/schema/budget.schema';
 
 @Injectable()
 export class ExpenseService {
@@ -28,6 +29,8 @@ export class ExpenseService {
     private expenseCategoryModel: Model<ExpenseCategory>,
     @InjectModel(Income.name)
     private incomeModel: Model<Income>,
+    @InjectModel(Budget.name)
+    private budgetModel: Model<Budget>,
   ) {}
 
   async addNewExpense(data: AddExpenseDto, req: any): Promise<any> {
@@ -71,6 +74,21 @@ export class ExpenseService {
         throw new UnprocessableEntityException(
           'Your current balance is lower than your expense!',
         );
+      }
+
+      const budgets = await this.budgetModel.find({
+        user: req.user.id,
+        category: data.category_id,
+        start_date: { $lte: data.date },
+        end_date: { $gte: data.date },
+      });
+
+      if (budgets && budgets.length >= 1) {
+        for (const budget of budgets) {
+          await this.budgetModel.findByIdAndUpdate(budget.id, {
+            amount: budget.amount - data.amount,
+          });
+        }
       }
 
       const expense = await this.expenseModel.create({

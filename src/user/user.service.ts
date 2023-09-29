@@ -73,11 +73,11 @@ export class UserService {
       if (new_password && !current_password)
         throw new UnprocessableEntityException('Current password is required!');
 
-      if (new_password === current_password)
-        throw new UnprocessableEntityException('Passwords are same!');
-
       let hashedPassword = 0;
       if (new_password && current_password) {
+        if (new_password === current_password)
+          throw new UnprocessableEntityException('Passwords are same!');
+
         const isMatchAccount = await bcrypt.compare(
           current_password,
           user.password,

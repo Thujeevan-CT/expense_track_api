@@ -124,27 +124,27 @@ export class UserService {
   async getUserStats(req: any, data: getStatsDto): Promise<any> {
     try {
       const durationType = data.duration_type || DurationType.Day;
-
-      const startDate = moment().startOf('day').unix();
-      const endDate = moment();
+      const startDate = moment();
+      const endDate = moment().endOf('day').unix();
 
       if (durationType === DurationType.Month) {
-        endDate.endOf('day').add(30, 'days');
+        startDate.startOf('day').subtract(30, 'days');
       } else if (durationType === DurationType.Week) {
-        endDate.endOf('day').add(7, 'days');
+        startDate.startOf('day').subtract(7, 'days');
       } else if (durationType === DurationType.Year) {
-        endDate.endOf('day').add(365, 'days');
+        startDate.startOf('day').subtract(365, 'days');
       } else {
-        endDate.endOf('day');
+        startDate.startOf('day');
       }
+
       const [incomeData, expenseData, expensesCategories] = await Promise.all([
         this.incomeModel.find({
           user: req.user.id,
-          date: { $gte: startDate, $lt: endDate.unix() },
+          date: { $gte: startDate.unix(), $lt: endDate },
         }),
         this.expenseModel.find({
           user: req.user.id,
-          date: { $gte: startDate, $lt: endDate.unix() },
+          date: { $gte: startDate.unix(), $lt: endDate },
         }),
         this.expenseCategoryModel.find({ status: Status.Active }),
       ]);
